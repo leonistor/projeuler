@@ -6,6 +6,15 @@
   What is the largest prime factor of the number 600851475143 ?
  */
 
+/*
+
+..........100140000000
+..........100141000000
+..........Largest prime factor of 600851475143 is 6857
+ dupa 1 zi de rulat!!!
+
+ */
+
 package main
 
 import 
