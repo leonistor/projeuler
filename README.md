@@ -4,7 +4,7 @@ My solutions to the problems at [Project Euler](http://projecteuler.net/) in [Go
 
 ## Setup
 
-Following advice from [here](http://stackoverflow.com/a/10142340), the repo should be cloned in 
+Following advice from [here](http://stackoverflow.com/a/10142340), the repo should be cloned in **$GOPATH/src/github.com/leonistor/**
 
 ### Utils
 
