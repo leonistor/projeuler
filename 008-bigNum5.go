@@ -9,7 +9,7 @@ package main
 
 import (
 	"fmt"
-	"strconv"
+	// "strconv"
 )
 
 func main() {
@@ -37,7 +37,20 @@ func main() {
 
 	fmt.Println("Len este ", len(bigNum))
 
-	x, err := strconv.Atoi(bigNum[4])
-	fmt.Println("elementul 5 este", x)
-
+	var x [5]byte
+	var maxProd = 1
+	for i := 0; i < len(bigNum)-5; i++ {
+		var currentProd = 1
+		copy(x[:], bigNum[i:i+5])
+		for _, val := range x {
+			digit := val - 48
+			fmt.Printf("%d", digit)
+			currentProd = currentProd * int(digit)
+		}
+		if currentProd >= maxProd {
+			maxProd = currentProd
+		}
+		fmt.Println(" ... ", currentProd)
+	}
+	fmt.Println("Max Prod is: ", maxProd)
 }
