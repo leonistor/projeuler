@@ -31,3 +31,25 @@ func IsPrime(num int64) bool {
 	}
 	return true
 }
+
+// chooses the min from a list of integers
+func Min(a ...int) int {
+	min := a[0]
+	for _, val := range a {
+		if val < min {
+			min = val
+		}
+	}
+	return min
+}
+
+// chooses the max from a list of integers
+func Max(a ...int) int {
+	max := a[0]
+	for _, val := range a {
+		if val > max {
+			max = val
+		}
+	}
+	return max
+}
