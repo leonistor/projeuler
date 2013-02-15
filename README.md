@@ -16,6 +16,6 @@ Following advice from [here](http://stackoverflow.com/a/10142340), the repo shou
 + Write tests for utils.isPrime using [prime list](http://primes.utm.edu/lists/small/1000.txt)
 + Profile execution time
 
-### Problems t be optimized
+### Problems to be optimized
 
 See Issues on this project
