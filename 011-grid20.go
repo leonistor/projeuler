@@ -3,7 +3,8 @@
 	Problem 11
 	Largest product in a grid
 
-	What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20×20 grid?
+	What is the greatest product of four adjacent numbers in the same direction 
+	(up, down, left, right, or diagonally) in the 20×20 grid?
 
 */
 
@@ -11,9 +12,11 @@ package main
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 )
 
-const grid = []string{
+var gridString = []string{
 	"08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08",
 	"49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00",
 	"81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65",
@@ -38,4 +41,39 @@ const grid = []string{
 
 func main() {
 
+	var grid [20][20]int
+
+	for i := 0; i < 20; i++ {
+		line := strings.Split(gridString[i], " ")
+		for j, num := range line {
+			nr, err := strconv.Atoi(num)
+			if err == nil {
+				grid[i][j] = nr
+			}
+		}
+	}
+
+	fmt.Println("Our grid is:")
+	for _, val := range grid {
+		for _, num := range val {
+			fmt.Print(printDoubleDigit(num), " ")
+		}
+		fmt.Println("")
+	}
+
+	var maxProd int
+	for i := 0; i < 4; i++ {
+		maxProd = i
+		fmt.Println("TODO: tablou 4x4", maxProd)
+	}
+}
+
+// print number under 100 using two characters
+func printDoubleDigit(i int) string {
+	if i < 10 {
+		return " " + strconv.Itoa(i)
+	} else if i < 100 {
+		return strconv.Itoa(i)
+	}
+	return "XX"
 }
