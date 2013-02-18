@@ -12,6 +12,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/leonistor/projeuler/utils"
 	"strconv"
 	"strings"
 )
@@ -41,7 +42,7 @@ var gridString = []string{
 
 func main() {
 
-	var grid [20][20]int
+	var grid [20][20]int // nubers in the grid
 
 	for i := 0; i < 20; i++ {
 		line := strings.Split(gridString[i], " ")
@@ -56,24 +57,74 @@ func main() {
 	fmt.Println("Our grid is:")
 	for _, val := range grid {
 		for _, num := range val {
-			fmt.Print(printDoubleDigit(num), " ")
+			fmt.Print(utils.PrintDoubleDigit(num), " ")
 		}
 		fmt.Println("")
 	}
+	fmt.Println("-----------------------------------------------------")
 
-	var maxProd int
-	for i := 0; i < 4; i++ {
-		maxProd = i
-		fmt.Println("TODO: tablou 4x4", maxProd)
-	}
-}
+	var maxProd, prod, i, j, x, y int64
+	for i = 0; i < 17; i++ {
+		fmt.Println("i: ", i, "---------------")
 
-// print number under 100 using two characters
-func printDoubleDigit(i int) string {
-	if i < 10 {
-		return " " + strconv.Itoa(i)
-	} else if i < 100 {
-		return strconv.Itoa(i)
+		for j = 0; j < 17; j++ {
+			fmt.Println("j: ", j, "---------------")
+
+			// horizontal
+			for x = 0; x < 4; x++ {
+				s := ""
+				prod = 1
+				for y = 0; y < 4; y++ {
+					prod *= int64(grid[i+x][j+y])
+					s = s + utils.PrintDoubleDigit(grid[i+x][j+y]) + " "
+				}
+				fmt.Println("h", s, " cu prod: ", prod)
+				if prod > maxProd {
+					maxProd = prod
+				}
+			}
+
+			// vertical
+			for y = 0; y < 4; y++ {
+				s := ""
+				prod = 1
+				for x = 0; x < 4; x++ {
+					prod *= int64(grid[i+x][j+y])
+					s = s + utils.PrintDoubleDigit(grid[i+x][j+y]) + " "
+				}
+				fmt.Println("v", s, " cu prod: ", prod)
+				if prod > maxProd {
+					maxProd = prod
+				}
+			}
+
+			// first diagonal
+			s := ""
+			prod = 1
+			for x = 0; x < 4; x++ {
+				prod *= int64(grid[i+x][j+x])
+				s = s + utils.PrintDoubleDigit(grid[i+x][j+x]) + " "
+
+			}
+			fmt.Println("first diagonal: ", s, " cu prod: ", prod)
+			if prod > maxProd {
+				maxProd = prod
+			}
+
+			// second diagonal
+			s = ""
+			prod = 1
+			for x = 0; x < 4; x++ {
+				prod *= int64(grid[i+x][j+3-x])
+				s = s + utils.PrintDoubleDigit(grid[i+x][j+3-x]) + " "
+
+			}
+			fmt.Println("second diagonal: ", s, " cu prod: ", prod)
+			if prod > maxProd {
+				maxProd = prod
+			}
+
+		}
+		fmt.Println("maxProd is now ", maxProd)
 	}
-	return "XX"
 }
