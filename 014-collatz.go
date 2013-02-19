@@ -29,13 +29,13 @@ import (
 	"fmt"
 )
 
-const stopNum int = 1000000 // one million
-var theNumber, theSteps int
-var stepMap map[int]int // a map with the number of Collatz steps for each number
+const stopNum uint64 = 1000000 // one million
+var theNumber, theSteps uint64
+var stepMap map[uint64]uint64 // a map with the number of Collatz steps for each number
 
 func main() {
 
-	stepMap = make(map[int]int) // Maps must be created with make (not new) before use
+	stepMap = make(map[uint64]uint64) // Maps must be created with make (not new) before use
 
 	stepMap[1] = 3
 	stepMap[2] = 1
@@ -44,10 +44,11 @@ func main() {
 	stepMap[5] = 5
 	stepMap[6] = 8
 
-	for i := 7; i < stopNum; i++ {
+	var i, steps, n uint64
+	for i = 7; i < stopNum; i++ {
 
-		steps := 0
-		n := i
+		steps = 0
+		n = i
 		found := false
 		// fmt.Println("--- pentru ", i)
 
@@ -77,7 +78,7 @@ func main() {
 	fmt.Println("FINALLY: ", theSteps, "steps for", theNumber)
 }
 
-func nextCollatz(n int) int {
+func nextCollatz(n uint64) uint64 {
 	if n > 1 {
 		if n%2 == 0 {
 			return n / 2
