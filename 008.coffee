@@ -24,4 +24,12 @@ bigNum = "73167176531330624919225119674426574742355349194934" +
     "05886116467109405077541002256983155200055935729725" +
     "71636269561882670428252483600823257530420752963450"
 
-console.log bigNum.length
+maxProd = 1
+for i in [0..bigNum.length-5]
+  cifre = bigNum[i...i+5].slice('')
+  currentProd = 1
+  for c in cifre
+    currentProd *= 1*c
+  # console.log i, ":", bigNum[i...i+5], currentProd
+  maxProd = currentProd if currentProd > maxProd
+console.log "Max product is", maxProd
