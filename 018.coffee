@@ -40,14 +40,9 @@ tri = [[75],
 [ 4, 62, 98, 27, 23,  9, 70, 98, 73, 93, 38, 53, 60,  4, 23]]
 
 
-winners = []
-
 for i in [tri.length-1..1]
   row = tri[i]
   for value, j in row when j isnt 0
-    if row[j] > row[j-1]
-      tri[i-1][j-1] += tri[i][j]
-    else
-      tri[i-1][j-1] += tri[i][j-1]
+    tri[i-1][j-1] += Math.max(tri[i][j], tri[i][j-1])
 
-console.log tri
+console.log "Maximum total is:", tri[0][0]
