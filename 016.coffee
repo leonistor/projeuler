@@ -9,15 +9,16 @@ What is the sum of the digits of the number 2^1000?
 n = Math.pow(2, 1000)
 
 if n < Number.MAX_VALUE
-  console.log n, "suntem in grafic"
+  console.log "suntem in grafic"
 
 # rushinica: solutia de aici
 # http://stackoverflow.com/questions/9834037/solving-project-euler-16-with-javascript?lq=1
 
 number = [1]
 sum = 0
+EXP = 1000
 
-for i in [0...1000]
+for i in [0...EXP]
   overflow = 0
   count = number.length + 1
   for j in [0...count]
@@ -30,7 +31,9 @@ for i in [0...1000]
       overflow = 0
     number[j] = digit
 
-for i in [0...1000]
-  sum += number[i]
+console.log number[0..100]
+
+for i in number
+  sum += i
 
 console.log sum
