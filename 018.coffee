@@ -15,6 +15,7 @@ Find the maximum total from top to bottom of the triangle below:
 ###
 
 ###
+
 tri = [[3],
 [7, 4]
 [2, 4, 6]
@@ -39,11 +40,14 @@ tri = [[75],
 [ 4, 62, 98, 27, 23,  9, 70, 98, 73, 93, 38, 53, 60,  4, 23]]
 
 
-depth = pos = 0
-sum = tri[depth][pos]
-for depth in [1...tri.length]
-  if tri[depth][pos] < tri[depth][pos+1]
-    pos++
-  sum += tri[depth][pos]
+winners = []
 
-console.log sum
+for i in [tri.length-1..1]
+  row = tri[i]
+  for value, j in row when j isnt 0
+    if row[j] > row[j-1]
+      tri[i-1][j-1] += tri[i][j]
+    else
+      tri[i-1][j-1] += tri[i][j-1]
+
+console.log tri

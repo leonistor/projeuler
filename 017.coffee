@@ -30,8 +30,10 @@ words = (n) ->
     str = ones[+figures[0]] + 'hundred'
     if n % 100 != 0
       str += 'and'
-      z = if figures[1] then +figures[1] else 0
-      u = if figures[2] then +figures[2] else 0
+      # z = if figures[1] then +figures[1] else 0
+      z = +figures[1] ?= 0
+      # u = if figures[2] then +figures[2] else 0
+      u = +figures[2] ?= 0
       # console.log figures, z, u
       str += words( z * 10 + u )
     return str 
