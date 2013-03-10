@@ -13,6 +13,20 @@
     return true;
   };
 
+  exports.divisorSum = function(n) {
+    var i, sum, _i, _ref;
+    if (n === 2) {
+      return 1;
+    }
+    sum = 1;
+    for (i = _i = 2, _ref = Math.ceil(n / 2); 2 <= _ref ? _i <= _ref : _i >= _ref; i = 2 <= _ref ? ++_i : --_i) {
+      if (n % i === 0) {
+        sum += i;
+      }
+    }
+    return sum;
+  };
+
   exports.hello = function() {
     return 'hello';
   };

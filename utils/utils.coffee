@@ -14,5 +14,19 @@ exports.isPrime = (n) ->
     i++
   true
 
+exports.divisorSum = (n) ->
+  return 1 if n is 2
+  sum = 1
+  for i in [2..Math.ceil(n/2)]
+    sum += i if n % i is 0
+  sum
+
+# testDivisorSum = ->
+#   assert.equal 8, divisorSum(10) 
+#   assert.equal 284, divisorSum(220) 
+#   assert.equal 220, divisorSum(284) 
+#   'test divisorSum passed'
+# console.log testDivisorSum()
+
 exports.hello = ->
   'hello'
