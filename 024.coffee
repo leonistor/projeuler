@@ -18,7 +18,7 @@ _ = require './utils/underscore-min'
 digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 ###
-# shamelessly teaken from http://rosettacode.org/wiki/Permutations#CoffeeScript
+# shamelessly taken from http://rosettacode.org/wiki/Permutations#CoffeeScript
 ###
 
 # Returns a copy of an array with the element at a specific position
