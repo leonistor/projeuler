@@ -26,13 +26,22 @@ The 12th term, F12, is the first term to contain three digits.
 What is the first term in the Fibonacci sequence to contain 1000 digits?
 ###
 
-# a = [0, 5, 2]
-# b = [0, 5, 8, 1]
-
-# a = [0,4,8,1,7,8,0,4,6,6,6,9,0,9,9,4,5,2,9,5,3,8,5,3,5]
-# b = [1,2,9,1,5,0,8,5,6,8,4,9,7,0,5,8,9,3,7,0,0,0,7,6,8]
-
-addX = (small, large) ->
+addX = (a, b) ->
+  if a.length == b.length
+    if a[a.length-1] > b[b.length-1]
+      small = a
+      large = b
+    else
+      small = b
+      large = a
+  else 
+    if a.length > b.length
+      small = b
+      large = a
+    else
+      small = a
+      large = b
+  # console.log "s, l", small, large
   overflow = 0
   for i in [0..large.length-1]
     # console.log i, large[i], (small[i] or 0), overflow
@@ -44,49 +53,43 @@ addX = (small, large) ->
     large[i] = digit
   if overflow > 0
     large[large.length] = overflow
+# end addX
+
 
 valueX = (n) ->
   n.slice().reverse().join('').toString()
 
-###
-console.log "a", a
-console.log valueX(a)
-console.log "b", b
-console.log valueX(b)
-aa = parseInt(valueX(a), 10)
-bb = parseInt(valueX(b), 10)
-console.log aa, bb, aa + bb
-
-addX(a, b)
-
-console.log "AFTER:"
-console.log "a", a
-console.log valueX(a)
-console.log "b", b
-console.log valueX(b)
-###
-
-###
-a = [8]
-b = [3, 1]
-
-addX(a, b)
-
-console.log b, valueX(b)
-console.log b
-###
-
 a = [1]
 b = [1]
 step = 3
-
-while step <=32
-  if step % 2 isnt 0
-    addX(a, b)
-    console.log step, a, "*", b 
-#    console.log valueX(b)
+count = 1
+while count <= 998
+  if step % 2 is 0
+    large = a
+    small = b
   else
-    addX(b, a)
-    console.log step, "*", a, b
-#    console.log valueX(a)
+    large = b
+    small = a
+  overflow = 0
+  count = Math.max(large.length, small.length)-1
+  for i in [0..count]
+    # console.log i, large[i], (small[i] or 0), overflow
+    digit = (large[i] or 0) + (small[i] or 0) + overflow
+    overflow = 0
+    if digit > 9
+      digit = digit - 10
+      overflow = 1
+    large[i] = digit
+  if overflow > 0
+    large[large.length] = overflow
+
+  if step % 2 is 0
+    console.log step, valueX(a), a.length
+  else
+    console.log step, valueX(b), b.length
   step++
+
+
+
+
+
