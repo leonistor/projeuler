@@ -21,7 +21,7 @@ fs = require 'fs'
 
 tri = []
 
-# parse faile, after manually delete last empty line :-)
+# parse file, after manually delete last empty line :-)
 fs.readFileSync('./data/triangle.txt').toString().split('\n').
   forEach( (line, depth) ->
     tri[depth] = []
@@ -33,6 +33,7 @@ fs.readFileSync('./data/triangle.txt').toString().split('\n').
       true
   )
 
+# same code as for problem 18
 for i in [tri.length-1..1]
   row = tri[i]
   for value, j in row when j isnt 0
