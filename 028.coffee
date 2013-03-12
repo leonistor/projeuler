@@ -17,7 +17,7 @@ What is the sum of the numbers on the diagonals in a 1001 by 1001
 spiral formed in the same way? 
 ###
 
-SIZE = 7 # odd number, careful with .. or ... ranges!
+SIZE = 1001 # odd number, careful with .. or ... ranges!
 s = []
 
 # initialize spiral matrix with 0
@@ -46,12 +46,6 @@ printSpiral = () ->
   # for ends here
   true
 
-# function to build the spiral
-# nextStep = () ->
-#   # mergi cu barca mereu la dreapta daca ai gol
-#   # tine compas (2 x switch +/-) barca cu doua var EV si NS, initial EV = +, NS = -
-#   true
-
 # start number
 count = 1
 
@@ -62,8 +56,9 @@ s[base][base] = count
 # max "radius" of spiral, assume SIZE odd value
 radius = (SIZE - 1) / 2
 
+# build the spiral
 for r in [1..radius]
-  console.log "r = #{r}"
+  # console.log "r = #{r}"
 
   # up -> down
   for i in [-r+1..r]
@@ -89,5 +84,17 @@ for r in [1..radius]
     # console.log "i=#{i}  s[#{base-r}][#{base+i}] = #{count}"
     s[base-r][base+i] = count
 
-printSpiral()
+sum = s[base][base]
+# calculate diagonals sum
+for r in [1..radius]
+  sum += s[base-r][base-r] + 
+         s[base-r][base+r] + 
+         s[base+r][base-r] + 
+         s[base+r][base+r] 
+
+console.log "Sum is #{sum}"
+
+if SIZE < 25
+  printSpiral()
+
 
