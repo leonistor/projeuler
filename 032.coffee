@@ -96,24 +96,18 @@ console.log valueOf([3,6,2,9,1,4,5,8,7][2...5]  )
 ###
 
 products = []
-# lungimea lui product nu poate fi decat 4 sau 5 (euristic :-)
 # test = all[1000..1010]
+# cautam ca disperatii a x b = c, cu pozitiile in perm determinate de egal si inmul
 for perm in all
-  [a1, b1, c1] = [ perm[0...2], perm[2...4], perm[4..] ]
-  [a2, b2, c2] = [ perm[0...2], perm[2...5], perm[5..] ]
-  [a3, b3, c3] = [ perm[0...3], perm[3...5], perm[5..] ]
-  if valueOf(a1) * valueOf(b1) is valueOf(c1)
-    console.log a1, b1, c1
-    products.push valueOf(c1)
-  if valueOf(a2) * valueOf(b2) is valueOf(c2)
-    console.log a2, b2, c2
-    products.push valueOf(c2)
-  if valueOf(a3) * valueOf(b3) is valueOf(c3)
-    console.log a3, b3, c3
-    products.push valueOf(c3)
+  for egal in [1..9]
+    for inmul in [1...egal]
+      [a, b, c] = [ perm[0...inmul], perm[inmul...egal], perm[egal..] ]
+      if valueOf(a) * valueOf(b) is valueOf(c)
+        console.log a, b, c
+        products.push valueOf(c)
 
 console.log "Distinct products obtained:"
-console.log _.unique(products)
+console.log products = _.unique(products)
 
 result = 0
 for p in products
