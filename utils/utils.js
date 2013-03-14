@@ -3,6 +3,9 @@
 
   exports.isPrime = function(n) {
     var i;
+    if (n < 2) {
+      return false;
+    }
     i = 2;
     while ((n !== 1) && (i <= Math.sqrt(n))) {
       if (n % i === 0) {
@@ -30,5 +33,35 @@
   exports.hello = function() {
     return 'hello';
   };
+
+  /*
+  a = [1, 2, 3, 4, 5, 6]
+  N = a.length
+  
+  # permutation count
+  count = 1
+  console.log count, a
+  
+  p = []
+  for n in [0..N]
+    p[n] = n
+  i = 1
+  while i < N
+    p[i]--
+    if i % 2 is 1
+      j = p[i]
+    else
+      j = 0
+    [ a[j], a[i] ] = [ a[i], a[j] ]
+    i = 1
+    while p[i] is 0
+      p[i] = i
+      i++
+    count++
+    console.log count, a
+  
+  console.log count
+  */
+
 
 }).call(this);

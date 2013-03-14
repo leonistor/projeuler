@@ -7,6 +7,8 @@
 # 
 
 exports.isPrime = (n) ->
+  if n < 2
+    return false
   i = 2
   while (n != 1) and (i <= Math.sqrt(n))
     if n%i == 0
