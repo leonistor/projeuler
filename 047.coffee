@@ -53,10 +53,11 @@ primeFactors = (n) ->
 primes = []
 factors = []
 
-consec = 3 # first consec consecutive  non-primes
-c = 0
+consec = 4 # first consecutive  non-primes, and also number of prime factors
+c = 0 # consecutive count
 i = 1
 found = false
+numbers = [] # the numbers found
 while not found 
   if isPrime(i)
     c = 0
@@ -64,11 +65,17 @@ while not found
   else 
     factors[i] = primeFactors(i)
     c++
-    if c is consec
-      # console.log "Found #{consec} consecutive non-primes:"
-      for j in [i-c+1..i]
-        console.log j
+    # TODO: eliminate 3, refactor for consec-1...
+    if c >= consec # achtung: nu is, ca sa prinzi si intervalele mai mari
+      for j in [i-3..i]
+        numbers.push j
+      console.log "Found #{consec} consecutive non-primes: #{numbers}"
+      if factors[i-3].length is factors[i-2].length is factors[i-1].length is factors[i].length is consec
+        found = true
+        console.log "FOUND!!!"
+        console.log numbers
+    # end if consecutives found
   i++
-  if i is 30 then break
+  numbers = []
+  if found then break
 
-console.log factors
