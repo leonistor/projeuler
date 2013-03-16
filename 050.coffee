@@ -25,7 +25,7 @@ for i in [1..N]
     primes.push i
 
 target = 1000
-sumLength = 21
+# sumLength = 21
 start = 0
 sum = maxSum = 0
 
@@ -36,19 +36,19 @@ for p, index in primes
     break
 console.log "At most #{index} consecutive primes will sum to #{target} "
 
-loop
-  sum = 0
-  rolling = [start...start+sumLength] 
-  for i in rolling
-    sum += primes[i]
-  if sum > target
-    break
-  if _.contains(primes, sum)
-    if sum > maxSum
-      maxSum = sum
-  start++
-
-console.log "Found maximum #{maxSum} under #{target} to be the sum of #{sumLength} consecutive primes"
+for target in [index..20]
+  loop
+    sum = 0
+    rolling = [start...start+sumLength] 
+    for i in rolling
+      sum += primes[i]
+    if sum > target
+      break
+    if _.contains(primes, sum)
+      if sum > maxSum
+        maxSum = sum
+    start++
+    console.log "Found maximum #{maxSum} under #{target} to be the sum of #{sumLength} consecutive primes"
 
 
 
