@@ -28,9 +28,10 @@ valueOf = (arr) ->
 
 cand = [] # candidates: 4-digit primes permutations of other
 
-# for n in [1486..1499]
+# for n in [2999..3011]
 for n in [1000..9999]
   if isPrime(n)
+    # console.log n
     perms = [] # permutations of n
     a = n.toString().split('').map( (d) -> parseInt(d, 10) )
     perms.push a.slice()
@@ -55,15 +56,30 @@ for n in [1000..9999]
       if isPrime(valueOf(a))
         perms.push a.slice()
     # end quickperms
+    # _.uniq(array, [isSorted], [iterator])
+    perms = _.uniq(perms, false, (e) -> JSON.stringify(e))
+    # console.log perms
     if perms.length > 2
       # TODO: quickperm duplicates values
-      # _.uniq(array, [isSorted], [iterator])
-      cand.push _.uniq( perms.slice().sort(), false, (e) -> JSON.stringify(e) )
+      # NOPE cand.push _.uniq( perms.slice().sort(), false, (e) -> JSON.stringify(e) )
+      cand.push perms.slice().sort()
+      # console.log "cand:"
+      # console.log cand
 
-console.log "Found #{cand.length} candidates"
+console.log "Found #{cand.length} candidates, with TODO a lot of duplicates"
 
-for c in cand[100..110]
-  console.log c
-
+for c in cand
+  # console.log JSON.stringify(c)
+  len = c.length
+  # combinari de len luate cate 3
+  for i in [0..len-3]
+    for j in [i+1..len-2]
+      for k in [j+1..len-1]
+        ci = valueOf(c[i])
+        cj = valueOf(c[j])
+        ck = valueOf(c[k])
+        if 1000 < ci < cj < ck
+          if ck - cj is cj - ci
+            console.log(ci, cj, ck, ''+ci+cj+ck)
 
 
