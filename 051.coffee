@@ -110,7 +110,7 @@ familyCount = (num, mask) ->
 # console.log familyCount(56003, '00110')
 # console.log family
 
-targetFamilyCount = 8
+targetFamilyCount = 9
 found = 0
 for p in primes
   maskSize = p.toString().length
@@ -123,8 +123,9 @@ for p in primes
   if found > 10
     break
 
-
-
 # _.indexOf(array, value, [isSorted])
 # console.log _.indexOf(primes, 56003, true) => 5679
-console.log _.indexOf(primes, 121313, true)
+# console.log _.indexOf(primes, 121313, true)
+
+# abordare gresita de rafucat
+# gasesti rezultatul cu mask target 9
