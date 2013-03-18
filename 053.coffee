@@ -18,4 +18,24 @@ are greater than one-million?
 ###
 
 # hmmm! coeficienti binomiali, deci...
-# poate folosim https://github.com/jtobey/javascript-bignum
+
+ONE_MILLION = Math.pow(10,6)
+
+pascal = []
+pascal[0] = [1]
+pascal[1] = [1, 1]
+
+count = 0
+
+for n in [2..100]
+  pascal[n] = [1]
+  for r in [1..n]
+    # console.log n, r, pascal[n-1][r-1], (pascal[n-1][r] or 0)
+    c = pascal[n-1][r-1] + (pascal[n-1][r] or 0)
+    pascal[n].push c
+    if c > ONE_MILLION
+      count++
+
+# console.log pascal
+console.log count
+
