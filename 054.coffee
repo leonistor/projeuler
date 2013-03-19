@@ -247,6 +247,41 @@ games = [
   # Full House
   # with Three Threes
   # Player 1
+  ,
+  '2H 2D JC KD JS 3C QD 3S QS 9D'
+  # Two pairs
+  # with Jacks and Twos
+  # Two pairs
+  # with Queens and Threes
+  # Player 2
+  ,
+  '2H 2D JC KD JS JD 3C 3S JS 9D'
+  # Two pairs
+  # with Jacks and Twos
+  # Two pairs
+  # with Jacks and Threes
+  # Player 2
+  ,
+  'JC KD JS 2H 2D 2C JD 2S JH 9D'
+  # Two pairs
+  # with Jacks and Twos, plus King
+  # Two pairs
+  # with Jacks and Twos, plus Nine
+  # Player 1
+  ,
+  'JC KD KS KH 2D JS JD 2S JH 9D'
+  # Three of a kind
+  # with Kings
+  # Three of a kind
+  # with Jacks
+  # Player 1
+  ,
+  '2C 3D 4S 5H 6D 8S 9D TS JH QD'
+  # Straight
+  # with Six
+  # Straight
+  # with Queen
+  # Player 2
 ]
 
 printPlayer = (player) ->
@@ -269,40 +304,133 @@ for hands, index in games
     printPlayer player
   if player1.rank > player2.rank
     winner = 1
-    console.log "---- Winner: Player 1"
   else if player1.rank < player2.rank
     winner = 2
-    console.log "---- Winner: Player 2"
   else
-    console.log "TIE"
+    # console.log "TIE"
     # start digging
+    # ugly as unfucked
     cards1 = _.map( player1.hand, (card) -> card[0] )
-    count1 = _.countBy(cards1, (card) -> card )
     sorted1 = _.sortBy(cards1, (card) -> _.indexOf(ORDER, card) )
+    count1 = _.countBy(sorted1, (card) -> card )
+
     cards2 = _.map( player2.hand, (card) -> card[0] )
-    count2 = _.countBy(cards2, (card) -> card )
     sorted2 = _.sortBy(cards2, (card) -> _.indexOf(ORDER, card) )
+    count2 = _.countBy(sorted2, (card) -> card )
 
     switch player1.rank
+
+      # highest card
       when 1
-        console.log sorted1
-        console.log sorted2
         if _.indexOf(ORDER, sorted1[4]) > _.indexOf(ORDER, sorted2[4])
           winner = 1
         else
           winner = 2
+
+      # one pair
       when 2
-        console.log count1
+        # console.log sorted1, sorted2
         for card, count of count1 when count is 2
           highest1 = card
-        console.log count2
         for card, count of count2 when count is 2
           highest2 = card
-        console.log highest1, highest2
+        # console.log highest1, highest2
         if _.indexOf(ORDER, highest1) > _.indexOf(ORDER, highest2)
           winner = 1
-        else
+        else if _.indexOf(ORDER, highest1) < _.indexOf(ORDER, highest2)
           winner = 2
+        else
+          rest1 = _.without(sorted1, highest1)
+          rest2 = _.without(sorted2, highest2)
+          # console.log rest1, rest2
+          if _.indexOf(ORDER, rest1[2]) > _.indexOf(ORDER, rest2[2])
+            winner = 1
+          else
+            winner = 2
+
+      # two pairs
+      when 3
+        # console.log "CAZ 3"
+        # console.log sorted1, sorted2
+        # console.log count1, count2
+        perechi1 = []
+        perechi2 = []
+        rest1 = []
+        rest2 = []
+        for card, count of count1
+          perechi1.push card if count is 2
+          rest1.push card if count is 1
+        for card, count of count2
+          perechi2.push card if count is 2
+          rest2.push card if count is 1
+        perechi1 = _.sortBy( perechi1, (card) -> _.indexOf(ORDER, card) )
+        perechi2 = _.sortBy( perechi2, (card) -> _.indexOf(ORDER, card) )
+        # console.log perechi1, perechi2
+        # console.log rest1, rest2
+
+        [highest1, second1, other1] = [perechi1[1], perechi1[0], rest1[0]]
+        [highest2, second2, other2] = [perechi2[1], perechi2[0], rest2[0]]
+        # console.log highest1, second1, other1
+        # console.log highest2, second2, other2
+        if _.indexOf(ORDER, highest1) > _.indexOf(ORDER, highest2)
+          winner = 1
+        else if _.indexOf(ORDER, highest1) < _.indexOf(ORDER, highest2)
+          winner = 2
+        else
+          if _.indexOf(ORDER, second1) > _.indexOf(ORDER, second2)
+            winner = 1
+          else if _.indexOf(ORDER, second1) < _.indexOf(ORDER, second2)
+            winner = 2
+          else
+            if _.indexOf(ORDER, other1) > _.indexOf(ORDER, other2)
+              winner = 1
+            else if _.indexOf(ORDER, other1) < _.indexOf(ORDER, other2)
+              winner = 2
+            else
+              console.log "we are fucked la 2 perechi"
+      # end when 3
+
+      # trei cuie si full haus
+      when 4, 7
+        for card, count of count1 when count is 3
+          highest1 = card
+        for card, count of count2 when count is 3
+          highest2 = card
+        # console.log highest1, highest2
+        if _.indexOf(ORDER, highest1) > _.indexOf(ORDER, highest2)
+          winner = 1
+        else if _.indexOf(ORDER, highest1) < _.indexOf(ORDER, highest2)
+          winner = 2
+
+      # Straight: All cards are consecutive values
+      when 5
+        # console.log sorted1, sorted2
+        highest1 = sorted1[4]
+        highest2 = sorted2[4]
+        if _.indexOf(ORDER, highest1) > _.indexOf(ORDER, highest2)
+          winner = 1
+        else if _.indexOf(ORDER, highest1) < _.indexOf(ORDER, highest2)
+          winner = 2
+        else
+          console.log "we are fucked la straight simplu"
+
+      # culoare
+      when 6
+        console.log "we are fucked la culoare"
+
+      # careu
+      when 8
+        for card, count of count1 when count is 4
+          highest1 = card
+        for card, count of count2 when count is 4
+          highest2 = card
+        # console.log highest1, highest2
+        if _.indexOf(ORDER, highest1) > _.indexOf(ORDER, highest2)
+          winner = 1
+        else if _.indexOf(ORDER, highest1) < _.indexOf(ORDER, highest2)
+          winner = 2
+
+      # when 9, 10
 
   # end TIE
   console.log "--------- Winner: Player #{winner}"
