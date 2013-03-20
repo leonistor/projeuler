@@ -29,7 +29,6 @@ numConcat = (a, b) ->
 # check if set of primes (arr) meets condition:
 #  By taking any two primes and concatenating them in any order 
 # the result will always be prime
-
 superSet = (arr) ->
   for a in arr
     for b in arr when b isnt a
@@ -50,7 +49,7 @@ setSum = (arr) ->
 
 
 # prepare primes list
-maxPrimeSize = 3 # hm!
+maxPrimeSize = 2 # hm!
 N = Math.pow(10,maxPrimeSize) - 1
 primes = []
 for i in [2..N]
@@ -63,21 +62,61 @@ total = primes.length
 minSum = 5 * primes[total-1]
 # console.log minSum
 
+cand = []
+###
 for a in primes
   for b in primes when b isnt a
     for c in primes when c isnt b and c isnt a
       for d in primes when d isnt c and d isnt b and d isnt a
-        for e in primes when e isnt d and e isnt c and e isnt b and e isnt a
           sum = 0
-          if superSet([a, b, c, d, e])
-            console.log(count, [a, b, c, d, e])
-            sum = setSum([a, b, c, d, e])
+          if superSet([a, b, c, d])
+            cand.push [a, b, c, d]
+            sum = setSum([a, b, c, d])
+            console.log(sum, [a, b, c, d])
             if sum < minSum
               minSum = sum
 
-console.log "The sum is #{sum}"
+console.log cand
+console.log "The sum is #{minSum}"
+###
 
+fours = [
+  [ 3, 7, 109, 673 ],
+  [ 23, 311, 677, 827 ]
+]
 
+sss = (arr, x) ->
+  for n in arr
+    # console.log [a,b]
+    if (not isPrime(numConcat(n,x))) or (not isPrime(numConcat(x,n)))
+      return false
+  return true
 
+i = 2
+loop
+  if isPrime(i)
+    if sss([3, 7, 109, 673], i)
+      sum = setSum([3, 7, 109, 673, i])
+      console.log(sum, [3, 7, 109, 673, i])
+    if sss([23, 311, 677, 827], i)
+      sum = setSum([23, 311, 677, 827, i])
+      console.log(sum, [23, 311, 677, 827, i])
+  i++
+
+###
+console.log total
+minSum = 5 * primes[total-1]
+
+console.log "Checking 3, 7, 109, 673"
+for x in _.without(primes, 3, 7, 109, 673)
+  if superSet([3, 7, 109, 673, x])
+    sum = setSum([3, 7, 109, 673, x])
+    console.log(sum, [3, 7, 109, 673, x])
+
+console.log "Checking 23, 311, 677, 827"
+for x in _.without(primes, 23, 311, 677, 827)
+  if superSet([23, 311, 677, 827, x])
+    sum = setSum([23, 311, 677, 827, x])
+    console.log(sum, [23, 311, 677, 827, x])
 
 
