@@ -32,7 +32,7 @@ numConcat = (a, b) ->
 superSet = (arr) ->
   for a in arr
     for b in arr when b isnt a
-      console.log [a,b]
+      # console.log [a,b]
       if (not isPrime(numConcat(a,b))) or (not isPrime(numConcat(b,a)))
         return false
   return true
@@ -49,80 +49,50 @@ setSum = (arr) ->
 
 
 # prepare primes list
-maxPrimeSize = 2 # hm!
-N = Math.pow(10,maxPrimeSize) - 1
+maxPrimeSize = 4
+N = Math.pow(10, maxPrimeSize) - 1
 primes = []
 for i in [2..N]
   if isPrime(i)
     primes.push i
-
-# primes = [3, 7, 13, 17, 109, 41, 673]
 total = primes.length
 
 minSum = 5 * primes[total-1]
 # console.log minSum
 
-cand = []
-###
-for a in primes
-  for b in primes when b isnt a
-    for c in primes when c isnt b and c isnt a
-      for d in primes when d isnt c and d isnt b and d isnt a
-          sum = 0
-          if superSet([a, b, c, d])
-            cand.push [a, b, c, d]
-            sum = setSum([a, b, c, d])
-            console.log(sum, [a, b, c, d])
-            if sum < minSum
-              minSum = sum
 
-console.log cand
-console.log "The sum is #{minSum}"
-###
+# rezolvat de 
+# http://blog.dreamshire.com/2009/06/03/project-euler-problem-60-solution/
+# nu m-a dus capu'
 
-fours = [
-  [ 3, 7, 109, 673 ],
-  [ 23, 311, 677, 827 ]
-]
+perechi = []
 
-sss = (arr, x) ->
-  for n in arr
-    # console.log [n,x]
-    console.log numConcat(n,x)
-    console.log numConcat(x,n)
-    if (not isPrime(numConcat(n,x))) or (not isPrime(numConcat(x,n)))
-      return false
-  return true
+for p in primes
+  perechi[p] = []
+  for q in primes when q > p
+    if isPrime(numConcat(p,q)) and isPrime(numConcat(q,p))
+      perechi[p].push q
 
-i = 2
-loop
-  if isPrime(i)
-    if sss([3, 7, 109, 673], i)
-      sum = setSum([3, 7, 109, 673, i])
-      console.log(sum, [3, 7, 109, 673, i])
-    if sss([23, 311, 677, 827], i)
-      sum = setSum([23, 311, 677, 827, i])
-      console.log(sum, [23, 311, 677, 827, i])
-  i++
+# console.log perechi
+
+# for set, p in perechi when set? and set.length > 0
+  # console.log p, set 
 
 ###
-nu merge nici cu brute force:
-1617553123
-316175539
-161755393
-2316175539
-1617553923
-316175557
-161755573
-2316175557
-1617555723
-316175563
-161755633
-2316175563
-FATAL ERROR: CALL_AND_RETRY_2 Allocation failed - process out of memory
-
-de vazut
-http://blog.dreamshire.com/2009/06/03/project-euler-problem-60-solution/
+for set_first, first in perechi when set_first? and set_first.length > 0
+  for second in set_first
+    set_second = _.intersection(set_first, perechi[second])
+    if set_second.length > 0
+      # console.log first, second, set_second
+      for third in set_second
+        set_third = _.intersection(set_second, perechi[third])
+        if set_third.length > 0
+          # console.log first, second, third, set_third
+          for fourth in set_third
+            set_fourth = _.intersection(set_third, perechi[fourth])
+            if set_fourth.length > 0
+              console.log first, second, third, fourth, set_fourth
 ###
 
-
+console.log superSet([13, 5197, 5701, 6733, 8389])
+console.log setSum([13, 5197, 5701, 6733, 8389])
