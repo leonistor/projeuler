@@ -32,7 +32,7 @@ numConcat = (a, b) ->
 superSet = (arr) ->
   for a in arr
     for b in arr when b isnt a
-      # console.log [a,b]
+      console.log [a,b]
       if (not isPrime(numConcat(a,b))) or (not isPrime(numConcat(b,a)))
         return false
   return true
@@ -87,7 +87,9 @@ fours = [
 
 sss = (arr, x) ->
   for n in arr
-    # console.log [a,b]
+    # console.log [n,x]
+    console.log numConcat(n,x)
+    console.log numConcat(x,n)
     if (not isPrime(numConcat(n,x))) or (not isPrime(numConcat(x,n)))
       return false
   return true
@@ -104,19 +106,23 @@ loop
   i++
 
 ###
-console.log total
-minSum = 5 * primes[total-1]
+nu merge nici cu brute force:
+1617553123
+316175539
+161755393
+2316175539
+1617553923
+316175557
+161755573
+2316175557
+1617555723
+316175563
+161755633
+2316175563
+FATAL ERROR: CALL_AND_RETRY_2 Allocation failed - process out of memory
 
-console.log "Checking 3, 7, 109, 673"
-for x in _.without(primes, 3, 7, 109, 673)
-  if superSet([3, 7, 109, 673, x])
-    sum = setSum([3, 7, 109, 673, x])
-    console.log(sum, [3, 7, 109, 673, x])
-
-console.log "Checking 23, 311, 677, 827"
-for x in _.without(primes, 23, 311, 677, 827)
-  if superSet([23, 311, 677, 827, x])
-    sum = setSum([23, 311, 677, 827, x])
-    console.log(sum, [23, 311, 677, 827, x])
+de vazut
+http://blog.dreamshire.com/2009/06/03/project-euler-problem-60-solution/
+###
 
 
