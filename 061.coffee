@@ -42,7 +42,7 @@ poly.hep = []
 poly.oct = []
 
 # populate arrays
-n     = 1
+n = 1
 loop
   poly.tri[n] = n * (n + 1) / 2
   poly.squ[n] = n * n
@@ -66,9 +66,9 @@ for name, arr of poly
     ( s[2] isnt '0')
    )
 
-for name of poly
-  console.log(name, poly[name].length)
-  console.log JSON.stringify(poly[name])
+# for name of poly
+#   console.log(name, poly[name].length)
+#   console.log JSON.stringify(poly[name])
 
 first2 = (num) ->
   num.toString()[0..1]
@@ -79,21 +79,109 @@ last2 = (num) ->
 # cautam abcd cdef efgh ghij ijkl klab 
 # si putem incepe cu oricare, preferam oct ca sunt cele mai putine
 
-second = {}
-for xOct in poly.oct
-  # console.log xOct
-  second[xOct] = {}
+second = []
+for abcd in poly.oct
   for name of poly when name isnt 'oct'
-    second[xOct][name] = []
-    # console.log name
-    # second[name].push poly[name][0]
     for next in poly[name]
-      if last2(xOct) is first2(next)
-        # console.log xOct, next
-        second[xOct][name].push next
+      if last2(abcd) is first2(next)
+        x = []
+        x.push { 'oct': abcd }
+        xx = {}
+        xx[name] = next
+        x.push xx
+        second.push x
 
+# console.log second
+# console.log second.length
 
-console.log second
+third = []
+for pair in second
+  ultimul = pair[1]
+  for fel, cdef of ultimul
+    # pair.push { 'test': 1 }
+    for name of poly when name isnt 'oct' and name isnt fel
+      for next in poly[name]
+        if last2(cdef) is first2(next)
+          t = pair.slice()
+          xx = {}
+          xx[name] = next
+          t.push xx
+          third.push t
 
+# console.log third
+# console.log third.length
+
+# gata = _.map(z, (p) -> _.keys(p)[0])
+# console.log  gata
+# for name of poly when name not in gata
+#   console.log name
+
+fourth = []
+for posibil in third
+  gata = _.map(posibil, (p) -> _.keys(p)[0])
+  # console.log posibil, gata
+  ultimul = posibil[2]
+  for fel, efgh of ultimul
+    for name of poly when name not in gata
+      for next in poly[name]
+        if last2(efgh) is first2(next)
+          f = posibil.slice()
+          xx = {}
+          xx[name] = next
+          f.push xx
+          fourth.push f
+
+# for f in fourth
+#   console.log JSON.stringify(f)
+# console.log fourth.length
+
+fifth = []
+for posibil in fourth
+  gata = _.map(posibil, (p) -> _.keys(p)[0])
+  ultimul = posibil[3]
+  for fel, ghij of ultimul
+    for name of poly when name not in gata
+      for next in poly[name]
+        if last2(ghij) is first2(next)
+          f = posibil.slice()
+          xx = {}
+          xx[name] = next
+          f.push xx
+          fifth.push f
+
+# for f in fifth
+#   console.log JSON.stringify(f)
+# console.log fifth.length
+
+sixth = []
+for posibil in fifth
+  gata = _.map(posibil, (p) -> _.keys(p)[0])
+  ultimul = posibil[4]
+  for fel, ijkl of ultimul
+    for name of poly when name not in gata
+      for next in poly[name]
+        if last2(ijkl) is first2(next)
+          f = posibil.slice()
+          xx = {}
+          xx[name] = next
+          f.push xx
+          sixth.push f
+
+# for f in sixth
+#   console.log JSON.stringify(f)
+# console.log sixth.length
+
+# finally, search the cycle
+
+for posibil in sixth
+  primul  = _.values(posibil[0])[0]
+  ultimul = _.values(posibil[5])[0]
+  if last2(ultimul) is first2(primul)
+    console.log "YES! And the winner is..."
+    console.log JSON.stringify(posibil)
+    sum = 0
+    for i in [0..5]
+      sum += _.values(posibil[i])[0]
+    console.log "The sum is #{sum}"
 
 
