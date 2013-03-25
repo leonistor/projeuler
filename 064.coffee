@@ -27,4 +27,24 @@ Exactly four continued fractions, for N <= 13, have an odd period.
 How many continued fractions for N <= 10000 have an odd period?
 ###
 
+_ = require './utils/underscore-min'
+
 # de folosit http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/cfINTRO.html#sqrtcf
+
+MAX = 10000
+squares = []
+i = 1
+while i*i <= MAX
+  squares.push i*i
+  i++
+
+# console.log squares[-10..]
+# console.log squares.length
+
+for n in [2..25]
+  # console.log n
+  if not _.contains(squares, n)
+    mmm = _.sortedIndex(squares, n) - 1
+    mm = squares[mmm]
+    m = Math.sqrt(mm)
+    console.log n, m
