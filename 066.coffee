@@ -121,7 +121,7 @@ for D in [2..1000]
       x = big(jos) # shit, e pe dos
       y = big(sus)
       # check Pell
-      # if big(x).multiply(x).subtract( big(D).multiply(y).multiply(y) ).isUnit()
+      # if big(x).multiply(x).subtract( big(D).multiply(y).multiply(y) ).isUnit() --> fucking shit, da true pentru 1 si -1
       if big(x).multiply(x).subtract( big(D).multiply(y).multiply(y) ).valueOf() is 1
         found = true
         console.log "D=#{D.toString()}: #{x.toString()}^2 - #{D.toString()} x #{y.toString()}^2 = 1"
