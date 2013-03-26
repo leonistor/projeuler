@@ -73,9 +73,8 @@ for n in [2..MAX]
     c.period = i
     CF[n] = c
 
-cfe = CF[7]
-
-console.log cfe
+# cfe = CF[7]
+# console.log cfe
 
 getA = (index) ->
   if index is 0 
@@ -85,8 +84,9 @@ getA = (index) ->
 # for i in [0..20]
 #   console.log i, getA(i)
 
+###
 k = 1
-console.log "#{k}:"
+# console.log "#{k}:"
 
 sus = big(1)
 jos = big( getA(k) )
@@ -98,12 +98,12 @@ while k > 0
   k--
 x = big(jos) # shit, e pe dos
 y = big(sus)
-console.log "#{x.toString()} / #{y.toString()}"
-
+# console.log "#{x.toString()} / #{y.toString()}"
+###
 
 bestX = bestD = big(1)
 
-for D in [2..10]
+for D in [2..1000]
   if not _.contains(squares, D)
     cfe = CF[D]
     found = false
@@ -121,12 +121,14 @@ for D in [2..10]
       x = big(jos) # shit, e pe dos
       y = big(sus)
       # check Pell
-      if big(x).multiply(x).subtract( big(D).multiply(y).multiply(y) ).isUnit()
+      # if big(x).multiply(x).subtract( big(D).multiply(y).multiply(y) ).isUnit()
+      if big(x).multiply(x).subtract( big(D).multiply(y).multiply(y) ).valueOf() is 1
         found = true
         console.log "D=#{D.toString()}: #{x.toString()}^2 - #{D.toString()} x #{y.toString()}^2 = 1"
         if x.compare(bestX) is 1
           bestX = big(x)
           bestD = big(D)
+          # console.log "#{x.toString()}, #{D.toString()}"
       start++
 
-console.log "Got #{bestD} for largest #{bestX}"
+console.log "Got #{bestD} for largest minimal x: #{bestX.toString()}"
