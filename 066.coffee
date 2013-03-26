@@ -27,20 +27,27 @@ Find the value of D <= 1000 in minimal solutions of x for which the largest
 value of x is obtained.
 ###
 
-bestX = bestD = 1
+big = require('./utils/biginteger').BigInteger
 
-for D in [2..1000] when ( Math.sqrt(D) isnt Math.floor(Math.sqrt(D)) )
-  x = 1
+bestX = bestD = big(1)
+
+for D in [2..100] when ( Math.sqrt(D) isnt Math.floor(Math.sqrt(D)) )
+  x = big(1)
   found = false
   while not found
-    x++
-    for y in [x-1..1]
-      if D is 61
-        console.log x, y
-      if (x*x - D*y*y - 1) is 0
+    # x++
+    x = x.next()
+    y = big(x).prev()
+    # for y in [x-1..1]
+    while not y.isUnit()
+      if big(x).multiply(x).subtract( big(D).multiply(y).multiply(y) ).isUnit()
+      # if (x*x - D*y*y - 1) is 0
         found = true
-        console.log "D=#{D}: #{x}^2 - #{D} x #{y}^2 = 1"
-        if x > bestX
-          [bestX, bestD] = [x, D]
+        console.log "D=#{D.toString()}: #{x.toString()}^2 - #{D.toString()} x #{y.toString()}^2 = 1"
+        if x.compare(bestX) is 1
+          # [bestX, bestD] = [x, D]
+          bestX = big(x)
+          bestD = big(D)
+      y = y.prev()
 
 console.log "Got #{bestD} for largest #{bestX}"
