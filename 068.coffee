@@ -34,7 +34,7 @@ form 16- and 17-digit strings. What is the maximum 16-digit string for a
 _ = require './utils/underscore-min'
 
 # 3-gon ring
-nums = [1..6]
+nums = [1..10]
 solutions = []
 
 for a in nums
@@ -43,19 +43,30 @@ for a in nums
       for d in nums when d not in [a,b,c]
         for e in nums when e not in [a,b,c,d]
           for f in nums when f not in [a,b,c,d,e]
-            L1 = a + b + c
-            L2 = e + c + d
-            L3 = f + d + b
-            L  = L1 + L2 + L3
-            # console.log a, b, c, d, e, f
-            if L1 is L2 is L3
-              s = []
-              s.push(a, b, c, e, c, d, f, d, b)
-              n = s.join('')
-              if s.length is 9
-                solutions.push( [[a, b, c], [e, c, d], [f, d, b]] )
-                console.log "#{L1}: #{a},#{b},#{c}; #{e},#{c},#{d}; #{f},#{d},#{b}"
-                # console.log n
+            for g in nums when g not in [a,b,c,d,e,f]
+              for h in nums when h not in [a,b,c,d,e,f,g]
+                for i in nums when i not in [a,b,c,d,e,f,g,h]
+                  for j in nums when j not in [a,b,c,d,e,f,g,h,i]
+                    L1 = a + b + c
+                    L2 = d + c + e
+                    L3 = f + e + g
+                    L4 = h + g + i
+                    L5 = j + i + b
+                    L  = L1 + L2 + L3 + L4 + L5
+                    if L1 is L2 is L3 is L4 is L5
+                      # console.log a, b, c, d, e, f, g, h, i, j
+                      s = []
+                      s.push(a, b, c, d, c, e, f, e, g, h, g, i, j, i, b)
+                      console.log "-----"
+                      console.log s
+                      console.log s.length
+                      n = s.join('')
+                      console.log n
+                      console.log n.length
+                      if n.length is 16
+                        solutions.push( [[a, b, c], [d, c, e], [f, e, g], [h, g, i], [j, i, b]] )
+                        # console.log "#{L1}: #{a},#{b},#{c}; #{e},#{c},#{d}; #{f},#{d},#{b}"
+                        # console.log n
 
 console.log solutions
 console.log solutions.length
