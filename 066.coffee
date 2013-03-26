@@ -28,26 +28,105 @@ value of x is obtained.
 ###
 
 big = require('./utils/biginteger').BigInteger
+_ = require './utils/underscore-min'
+
+# http://en.wikipedia.org/wiki/Pell%27s_equation#Example
+# http://en.wikipedia.org/wiki/Continued_fraction#Generalized_continued_fraction_for_square_roots
+
+MAX = 1000
+squares = []
+i = 1
+while i*i <= MAX
+  squares.push i*i
+  i++
+
+CF = [] # array of objects with continued fractions
+
+for n in [2..MAX]
+  # console.log "---- ", n
+  c = {}
+  if not _.contains(squares, n)
+    cfe = '' # continued fraction expansion
+    m = 0
+    d = 1
+    a0 = a = Math.floor(Math.sqrt(n))
+    c.a0 = a0
+    c.a = []
+    cfe += '[' + a0 + ';('
+    prima = true
+    i = 0
+    # for i in [1..10]
+    loop
+      m = d * a - m
+      d = (n - m * m) / d
+      a = Math.floor( (a0 + m) / d )
+      if not prima and (starta is a and startd is d and startm is m)
+        break
+      cfe += '' + a + ','
+      c.a.push a
+      if prima
+        [startm, startd, starta] = [m, d, a]
+        prima = false
+      i++
+    cfe += ')]'
+    # console.log cfe, " period", i
+    c.period = i
+    CF[n] = c
+
+cfe = CF[7]
+
+console.log cfe
+
+getA = (index) ->
+  if index is 0 
+    return cfe.a0
+  else
+    return cfe.a[ (index - 1) % cfe.period ]
+# for i in [0..20]
+#   console.log i, getA(i)
+
+k = 1
+console.log "#{k}:"
+
+sus = big(1)
+jos = big( getA(k) )
+while k > 0
+  tmp = big(sus)
+  sus = big(jos)
+  jos = big(tmp).add( jos.multiply( getA(k-1) ) )
+  # console.log "k: #{sus.toString()} / #{jos.toString()}"
+  k--
+x = big(jos) # shit, e pe dos
+y = big(sus)
+console.log "#{x.toString()} / #{y.toString()}"
+
 
 bestX = bestD = big(1)
 
-for D in [2..100] when ( Math.sqrt(D) isnt Math.floor(Math.sqrt(D)) )
-  x = big(1)
-  found = false
-  while not found
-    # x++
-    x = x.next()
-    y = big(x).prev()
-    # for y in [x-1..1]
-    while not y.isUnit()
+for D in [2..10]
+  if not _.contains(squares, D)
+    cfe = CF[D]
+    found = false
+    start = 1
+    while not found
+      k = start
+      sus = big(1)
+      jos = big( getA(k) )
+      while k > 0
+        tmp = big(sus)
+        sus = big(jos)
+        jos = big(tmp).add( jos.multiply( getA(k-1) ) )
+        # console.log "k: #{sus.toString()} / #{jos.toString()}"
+        k--
+      x = big(jos) # shit, e pe dos
+      y = big(sus)
+      # check Pell
       if big(x).multiply(x).subtract( big(D).multiply(y).multiply(y) ).isUnit()
-      # if (x*x - D*y*y - 1) is 0
         found = true
         console.log "D=#{D.toString()}: #{x.toString()}^2 - #{D.toString()} x #{y.toString()}^2 = 1"
         if x.compare(bestX) is 1
-          # [bestX, bestD] = [x, D]
           bestX = big(x)
           bestD = big(D)
-      y = y.prev()
+      start++
 
 console.log "Got #{bestD} for largest #{bestX}"
