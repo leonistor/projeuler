@@ -34,8 +34,10 @@ for D in [2..1000] when ( Math.sqrt(D) isnt Math.floor(Math.sqrt(D)) )
   found = false
   while not found
     x++
-    for y in [1..x]
-      if (x*x - D*y*y) is 1
+    for y in [x-1..1]
+      if D is 61
+        console.log x, y
+      if (x*x - D*y*y - 1) is 0
         found = true
         console.log "D=#{D}: #{x}^2 - #{D} x #{y}^2 = 1"
         if x > bestX
