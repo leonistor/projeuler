@@ -14,60 +14,50 @@ Find the value of n, 1 < n < 10^7, for which phi(n) is a permutation of n
 and the ratio n/phi(n) produces a minimum.
 ###
 
-
+big = require('./utils/biginteger').BigInteger
 isPrime = require("./utils/utils").isPrime
 _ = require './utils/underscore-min'
 
 MAX = Math.pow(10,7)
-
-# descompunerea in factori primi
-# returneaza perechile baza base, exponent expo ale descompunerii
-primeFactors = (n) ->
-  out = []
-  if _.contains primes, n
-    pair = 
-      base: n
-      expo:  1
-    out.push pair
-    return out
-  i = 0
-  while n isnt 1
-    p = 0
-    while n % primes[i] is 0
-      p++
-      n /= primes[i]
-    if p 
-      pair =
-        base: primes[i]
-        expo:  p
-      out.push pair
-    i++
-  return out
-# end primeFactors
-
-# http://en.wikipedia.org/wiki/Euler%27s_totient_function#Euler.27s_product_formula
-# n/phi(n) = produs de p/(p-1) pentru p|n, p prim
-maxRatio = 1
-maxN = 1
+# MAX = Math.pow(10,3)
 
 primes = []
-factors = []
 
-for n in [1..MAX]
-  ratio = 1
+minR  = MAX
+bestN = 1
+
+for n in [2...MAX]
+  N = big(n)
   if isPrime(n)
+  # primes are not candidates: phi(p) = p-1, cannot be permutation
     primes.push n
-    ratio = n / (n-1)
   else
-    factors[n] = primeFactors(n)
-    fact = _.pluck(factors[n], 'base')
-    # console.log fact
-    for f in fact
-      ratio *= f/(f-1)
-  if n % 100000 is 0
-    console.log n, ratio
-  if ratio > maxRatio
-    maxRatio = ratio
-    maxN     = n
+    PHI = big(n)
+    digitsN = N.toString().split('').sort().join('')
+    sizeN = digitsN.length
+    # index of max prime divisor
+    impd = _.sortedIndex(primes, n/2) 
+    # console.log "---", n
+    # console.log "dn", digitsN
+    sizeOK = true
+    i = 0
+    while sizeOK and i <= impd
+      if n % primes[i] is 0
+        # console.log "got divisor #{primes[i]}"
+        PHI = PHI.multiply(primes[i] - 1).divide(primes[i])
+        sizePHI = PHI.toString().length
+        if sizePHI > sizeN
+          sizeOK = false
+      i++
+    # console.log PHI.toString()
+    if sizePHI is sizeN
+      digitsPHI = PHI.toString().split('').sort().join('')
+      # console.log "df", digitsPHI
+      if digitsN is digitsPHI
+        R = N.valueOf() / PHI.valueOf()
+        console.log "got #{n} and #{PHI.toString()} with R #{R}"
+        if R < minR
+          minR = R
+          bestN = n
 
-console.log "Got #{maxN} to have max #{maxRatio}"
+console.log "Got #{bestN} with ratio #{minR}"
