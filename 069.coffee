@@ -27,6 +27,7 @@ Find the value of n <= 1,000,000 for which n/phi(n) is a maximum.
 isPrime = require("./utils/utils").isPrime
 _ = require './utils/underscore-min'
 
+# MAX = Math.pow(10,6)
 MAX = Math.pow(10,6)
 
 # descompunerea in factori primi
@@ -54,26 +55,28 @@ primeFactors = (n) ->
   return out
 # end primeFactors
 
-primes = []
-factors = []
-
-for n in [1..100]
-  if isPrime(n)
-    primes.push n
-  else
-    factors[n] = primeFactors(n)
-
 # http://en.wikipedia.org/wiki/Euler%27s_totient_function#Euler.27s_product_formula
 # n/phi(n) = produs de p/(p-1) pentru p|n, p prim
 maxRatio = 1
+maxN = 1
 
-for n in [1..10]
+primes = []
+factors = []
+
+for n in [1..MAX]
   ratio = 1
-  if _.contains(primes, n)
+  if isPrime(n)
+    primes.push n
     ratio = n / (n-1)
   else
+    factors[n] = primeFactors(n)
     fact = _.pluck(factors[n], 'base')
     # console.log fact
     for f in fact
       ratio *= f/(f-1)
   console.log n, ratio
+  if ratio > maxRatio
+    maxRatio = ratio
+    maxN     = n
+
+console.log "Got #{maxN} to have max #{maxRatio}"
