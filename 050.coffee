@@ -1,4 +1,4 @@
-###
+co###
 Problem 50
 Consecutive prime sum
 
