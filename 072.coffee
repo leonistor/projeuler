@@ -19,12 +19,31 @@ for d <= 1,000,000?
 
 _ = require './utils/underscore-min'
 
+# Euclid for greatest common divisor
+gcd = (a, b) ->
+  while b isnt 0
+    t = b
+    b = a % t
+    a = t
+  a
+# console.log gcd(1071, 462)
 
-MAX = 8
-count = ucount = MAX - 1 # le punem pe 1/d
+
+MAX = 10000
+
+fractions = []
 
 for d in [2..MAX]
   for n in [1...d]
-    console.log n, d
+    [N, D] = [n, d]
+    if (r = gcd(d,n)) isnt 1
+      # console.log r
+      [N, D] = [N/r, D/r]
+    # console.log "#{n} / #{d}, #{N} / #{D}"
+    fractions.push '' + N + '/' + D
+  if d % 1000 is 0
+    console.log d
 
-console.log "Got #{count} fractions, of which #{ucount} are unique"
+uf = _.uniq(fractions)
+
+console.log "Got #{fractions.length} fractions, of which #{uf.length} are unique"
