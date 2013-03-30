@@ -17,33 +17,57 @@ How many elements would be contained in the set of reduced proper fractions
 for d <= 1,000,000?
 ###
 
+# TODO
+# de optimizat cu phi(p^k), daca tot faci prime factors
+# http://en.wikipedia.org/wiki/Euler's_totient_function#.CF.86.28pk.29_.3D_pk_.E2.88.92_pk_.E2.88.92_1_.3D_pk_.E2.88.92_1.28p_.E2.88.92_1.29
+
 _ = require './utils/underscore-min'
+isPrime = require("./utils/utils").isPrime
 
-# Euclid for greatest common divisor
-gcd = (a, b) ->
-  while b isnt 0
-    t = b
-    b = a % t
-    a = t
-  a
-# console.log gcd(1071, 462)
+MAX = 1000000
 
+# descompunerea in factori primi
+# returneaza perechile baza base, exponent expo ale descompunerii
+primeFactors = (n) ->
+  out = []
+  if _.contains primes, n
+    pair = 
+      base: n
+      expo:  1
+    out.push pair
+    return out
+  i = 0
+  while n isnt 1
+    p = 0
+    while n % primes[i] is 0
+      p++
+      n /= primes[i]
+    if p 
+      pair =
+        base: primes[i]
+        expo:  p
+      out.push pair
+    i++
+  return out
+# end primeFactors
 
-MAX = 10000
+primes = []
+count = 0
 
-fractions = []
+for n in [2..MAX]
+  if isPrime(n)
+    primes.push n
+    phi = n-1
+  else
+    factors = primeFactors(n)
+    fact = _.pluck(factors, 'base')
+    # console.log fact
+    phi = n
+    for f in fact
+      phi *= (f-1)/f
+  # console.log n, phi
+  count += phi
+  if n % 1000 is 0
+    console.log n
 
-for d in [2..MAX]
-  for n in [1...d]
-    [N, D] = [n, d]
-    if (r = gcd(d,n)) isnt 1
-      # console.log r
-      [N, D] = [N/r, D/r]
-    # console.log "#{n} / #{d}, #{N} / #{D}"
-    fractions.push '' + N + '/' + D
-  if d % 1000 is 0
-    console.log d
-
-uf = _.uniq(fractions)
-
-console.log "Got #{fractions.length} fractions, of which #{uf.length} are unique"
+console.log count
