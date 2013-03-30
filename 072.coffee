@@ -19,39 +19,12 @@ for d <= 1,000,000?
 
 _ = require './utils/underscore-min'
 
-# http://en.wikipedia.org/wiki/Continued_fraction#Calculating_continued_fraction_representations
-# cf for n/d, n < d; first step is 0, we'll skip it
-continuedFraction = (n, d) ->
-  ret = ''
-  while reminder = d % n
-    # console.log d, n, '%', reminder
-    # console.log reminder
-    f = Math.floor(d/n)
-    ret += '' + f + ','
-    d = n
-    n = reminder
-    # console.log "next", d, n
-  ret += '' + d/n
-  ret
-# end continuedFraction
 
-# console.log continuedFraction(49,200)
-# console.log continuedFraction(2*49,2*200)
-# console.log continuedFraction(7455,9218)
-# console.log continuedFraction(2*7455,2*9218)
+MAX = 8
+count = ucount = MAX - 1 # le punem pe 1/d
 
-MAX = 1000000
-
-cf = []
-for d in [1..MAX]
+for d in [2..MAX]
   for n in [1...d]
-    # console.log "#{n}/#{d}, #{continuedFraction(n,d)}"
-    cf.push continuedFraction(n,d)
-  if d % 1000 is 0
-    console.log d
+    console.log n, d
 
-console.log "Got #{cf.length} continued fractions"
-
-ucf = _.uniq(cf)
-
-console.log "Got #{ucf.length} unique continued fractions"
+console.log "Got #{count} fractions, of which #{ucount} are unique"
