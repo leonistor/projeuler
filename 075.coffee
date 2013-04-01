@@ -35,14 +35,17 @@ gcd = (a, b) ->
   a
 # console.log gcd(1071, 462)
 
-# maxL = 1200
+# maxL = 200
 maxL = 1500000
-stop = Math.floor(Math.sqrt(maxL))+1000
+stop = Math.floor(Math.sqrt(maxL))+5000
 
 # cautam primitive Pythagorean triples
-
-triplets = []
+triples = []
+# insemnam ce lungimi se produc cu triplet si k*triplet
 lungimi  = []
+for x in [0..maxL]
+  triples[x] = 0
+  lungimi[x] = 0
 
 for m in [1..stop]
   for n in [1...m]
@@ -54,44 +57,21 @@ for m in [1..stop]
     # Theorem 2
     s = m - n
     r = n
-    # console.log m, n, '->', a, b, c, l, (s % 2 is 1), (gcd(r, s) is 1)
     if (l <= maxL) and (s % 2 is 1) and (gcd(r, s) is 1)
       # console.log "got ", a, b, c, l
-      tri =
-        len:   l
-        clean: 1
-      lungimi.push tri
-      if a < b 
-        triplets.push [a, b, c, l]
-      else
-        triplets.push [b, a, c, l]
+      lungimi[l] = 1
+      triples[l] = 1
 
-# console.log triplets.length
-# console.log lungimi
-lungimi.sort((x, y) -> x.len-y.len) 
-# console.log lungimi
-
-# in loc de _.sortedIndex
-jumate = 0
-for l, index in lungimi
-  if l.len > maxL/2
-    jumate = index - 1
-    break
-
-# console.log lungimi[jumate]
-for caut in [0..jumate]
-  sursa = lungimi[caut]
-  murdar = false
-  for alta in lungimi[caut+1..]
-    if alta.clean is 1 and alta.len % sursa.len is 0
-      murdar = true
-      alta.clean = 0
-  if murdar
-    sursa.clean = 0
+for t, l in triples
+  if t isnt 0
+    k = 2
+    while k * l <= maxL
+      lungimi[k * l] += 1
+      k++
 
 count = 0
-console.log lungimi.length
-for l in lungimi
-  if l.clean is 1
+for c, l in lungimi
+  if c is 1
     count++
-console.log "#{count} are clean"
+
+console.log count
