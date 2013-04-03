@@ -158,26 +158,59 @@ positive integers?
 
 ###
 
-_ = require './utils/underscore-min'
 
-scrieri = []
-scrieri[1] = [1]
-scrieri[2] = [1, 1]
-scrieri[3] = [
-  [2, 1]
-  [1, 1, 1]
-]
+# num = 8
 
-console.log scrieri
+for num in [5..9]
+  count = 0
+  console.log "=== work: #{num}"
+  for lung in [2..num]
+    start = [num-lung+1]
+    for i in [1..lung-1]
+      start.push 1
+    console.log start
+    count++ # fiecare start e prima varianta de la scrierea cu lung termeni
+    switch lung
+      when 2
+        for c in [2..Math.floor(num/2)]
+          console.log [num-c, c]
+          count++
+      when num - 1
+        console.log "2 111"
+      when num
+        console.log "111111"
+      else
+        # console.log "treaba:"
+        gata = false
+        celMult = Math.ceil(num/lung)
+        console.log "#{lung} cu cel mult #{celMult}"
+        while not gata
+          # cautam pornirea
+          max = incepe = 0
+          for n, i in start
+            if n >= max
+              [max, incepe] = [n, i]
+          # console.log "incepem cu #{max} de la #{incepe}"
+          if start[incepe] > start[incepe+1]
+            start[incepe]--
+            start[incepe+1]++
+          if start[incepe+1] <= start[incepe]
+            console.log start
+            count++
+          if start[lung-2] is 2 and start[lung-1] is 1
+            gata = true
+          
+        console.log "a ramas", start
+
+
+
+  console.log "=== #{num} are #{count} variante"
 
 ###
-num = 9
-for lung in [2..num]
-  start = [num-lung+1]
-  for i in [1..lung-1]
-    start.push 1
-  console.log start
-
-x = [1, 2, 3, 4]
-console.log x[..-2]
+1.
+nu e bine transportul, vezi cazul 6111 la 9, iti scapa 4311
+eventual cauta incepe de la coada
+2.
+conditia de gata nu e buna, ghideaza-te dupa celMult pe prima si 
+a doua pozitie
 
