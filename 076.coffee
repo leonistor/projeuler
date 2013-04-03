@@ -159,58 +159,70 @@ positive integers?
 ###
 
 
-# num = 8
+scr = [] # scrieri de numere
 
-for num in [5..9]
+scr[0] = [[]] # sa fie
+scr[1] = [
+  [],
+  [1]
+]
+scr[2] = [
+  [],
+  [ [2] ],
+  [ [1,1] ]
+]
+scr[3] = [
+  [],
+  [ [3] ],
+  [ [2,1] ],
+  [ [1,1,1] ]
+]
+scr[4] = [
+  [],
+  [ [4] ],
+  [ [3,1], [2,2] ],
+  [ [2,1,1] ],
+  [ [1,1,1,1] ]
+]
+
+scriere = (n) ->
   count = 0
-  console.log "=== work: #{num}"
-  for lung in [2..num]
-    start = [num-lung+1]
-    for i in [1..lung-1]
-      start.push 1
-    console.log start
-    count++ # fiecare start e prima varianta de la scrierea cu lung termeni
-    switch lung
-      when 2
-        for c in [2..Math.floor(num/2)]
-          console.log [num-c, c]
-          count++
-      when num - 1
-        console.log "2 111"
-      when num
-        console.log "111111"
+  console.log "#{n} poate fi scris ca:"
+  for fel, lung in scr[n] when lung isnt 0 and lung isnt 1
+    console.log " cu #{lung} cifre:"
+    for f in fel
+      console.log "  ", f
+      count++
+  console.log "#{n} poate fi scris in #{count} feluri"
+# scriere(4)
+
+for n in [5..9]
+  scr[n] = []
+  curent = scr[n]
+  anterior = scr[n-1]
+
+  curent[0] = []
+  curent[1] = [ [n] ]
+  curent[2] = []
+  for c in [1..Math.floor(n/2)]
+    curent[2].push [n-c,c]
+
+  for fel in [3..n]
+    curent[fel] = []
+    for sursa in anterior[fel-1]
+      curent[fel].push sursa[..].concat([1])
+    # il pot scrie si cu 2 in coada?
+    # pula, si daca ai la 9 pe 3 = 3,3,3 ???
+    # nu merge
+    if (n - 2) / (fel - 1) >= 2
+      doi = []
+      if n % 2 is 1
+        doi = [3]
       else
-        # console.log "treaba:"
-        gata = false
-        celMult = Math.ceil(num/lung)
-        console.log "#{lung} cu cel mult #{celMult}"
-        while not gata
-          # cautam pornirea
-          max = incepe = 0
-          for n, i in start
-            if n >= max
-              [max, incepe] = [n, i]
-          # console.log "incepem cu #{max} de la #{incepe}"
-          if start[incepe] > start[incepe+1]
-            start[incepe]--
-            start[incepe+1]++
-          if start[incepe+1] <= start[incepe]
-            console.log start
-            count++
-          if start[lung-2] is 2 and start[lung-1] is 1
-            gata = true
-          
-        console.log "a ramas", start
+        doi = [2]
+      for c in [0..fel-2]
+        doi.push 2
+      curent[fel].push doi[..]
 
-
-
-  console.log "=== #{num} are #{count} variante"
-
-###
-1.
-nu e bine transportul, vezi cazul 6111 la 9, iti scapa 4311
-eventual cauta incepe de la coada
-2.
-conditia de gata nu e buna, ghideaza-te dupa celMult pe prima si 
-a doua pozitie
+  scriere n
 
