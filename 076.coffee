@@ -158,71 +158,15 @@ positive integers?
 
 ###
 
+num = 100
+feluri = [1]
 
-scr = [] # scrieri de numere
+for i in [1..num]
+  feluri[i] = 0
 
-scr[0] = [[]] # sa fie
-scr[1] = [
-  [],
-  [1]
-]
-scr[2] = [
-  [],
-  [ [2] ],
-  [ [1,1] ]
-]
-scr[3] = [
-  [],
-  [ [3] ],
-  [ [2,1] ],
-  [ [1,1,1] ]
-]
-scr[4] = [
-  [],
-  [ [4] ],
-  [ [3,1], [2,2] ],
-  [ [2,1,1] ],
-  [ [1,1,1,1] ]
-]
+for i in [1...num]
+  for j in [i..num]
+    feluri[j] += feluri[j-i]
 
-scriere = (n) ->
-  count = 0
-  console.log "#{n} poate fi scris ca:"
-  for fel, lung in scr[n] when lung isnt 0 and lung isnt 1
-    console.log " cu #{lung} cifre:"
-    for f in fel
-      console.log "  ", f
-      count++
-  console.log "#{n} poate fi scris in #{count} feluri"
-# scriere(4)
-
-for n in [5..9]
-  scr[n] = []
-  curent = scr[n]
-  anterior = scr[n-1]
-
-  curent[0] = []
-  curent[1] = [ [n] ]
-  curent[2] = []
-  for c in [1..Math.floor(n/2)]
-    curent[2].push [n-c,c]
-
-  for fel in [3..n]
-    curent[fel] = []
-    for sursa in anterior[fel-1]
-      curent[fel].push sursa[..].concat([1])
-    # il pot scrie si cu 2 in coada?
-    # pula, si daca ai la 9 pe 3 = 3,3,3 ???
-    # nu merge
-    if (n - 2) / (fel - 1) >= 2
-      doi = []
-      if n % 2 is 1
-        doi = [3]
-      else
-        doi = [2]
-      for c in [0..fel-2]
-        doi.push 2
-      curent[fel].push doi[..]
-
-  scriere n
-
+for f, i in feluri
+  console.log i, f
