@@ -14,17 +14,35 @@ What is the first value which can be written as the sum of primes in over
 five thousand different ways?
 ###
 
+###
+cheat
+http://www.mathblog.dk/project-euler-77-sum-of-primes-five-thousand-ways/
+###
+
 isPrime = require("./utils/utils").isPrime
+_ = require './utils/underscore-min'
 
-num = 100
-prime = []
-
-for i in [2..num]
+target = 2
+primes = []
+for i in [2..100]
   if isPrime(i)
-    prime.push i
-console.log prime
+    primes.push i
 
-         #0  1  2  3  4
-feluri = [0, 0, 1, 1, 2]
-for i in [5..num]
-  feluri[i] = 0
+console.log primes
+
+gata = false
+while not gata
+  ways = []
+  for i in [0..target]
+    ways[i] = 0
+  ways[0] = 1
+
+  for i in primes
+    for j in [i..target]
+      ways[j] += ways[j-i]
+
+  if ways[target] > 5000
+    gata = true
+    for w, i in ways
+      console.log i, w
+  target++
