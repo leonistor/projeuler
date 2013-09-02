@@ -19,6 +19,7 @@ the bottom right by only moving right and down.
 
 _ = require './utils/underscore-min'
 
+###
 mText = [
   "131,673,234,103,18",
   "201,96,342,965,150",
@@ -38,11 +39,22 @@ for line, x in mText
   for e, y in l
     m[x][y] =  parseInt e, 10
     s[x][y] = Infinity
+###
+
+n = 80
+m = require('./data/matrix.js').m
+
+s = []
+for i in [0...n]
+  s[i] = []
+  for j in [0...n]
+    s[i][j] = Infinity
 
 s[0][0]=m[0][0]
 
-console.log m
-console.log s
+# console.log m
+# console.log "----------"
+# console.log s
 
 ###
 console.log "test raze"
@@ -80,4 +92,4 @@ for r in [1..n-1]
       if m[x][y] + s[x][y-1] < s[x][y]
         s[x][y] = m[x][y] + s[x][y-1]
 
-console.log s
+console.log s[n-1][n-1]
