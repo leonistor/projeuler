@@ -5,13 +5,18 @@ package main
 
 import "fmt"
 
-func main() {
+func sumMultiples(max int) int {
 	sum := 0
 
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < max; i++ {
 		if (i%3 == 0) || (i%5 == 0) {
 			sum += i
 		}
 	}
-	fmt.Println("The sum is:", sum)
+
+	return sum
+}
+
+func main() {
+	fmt.Println("The sum is:", sumMultiples(1000))
 }
