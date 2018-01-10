@@ -22,15 +22,20 @@ func fibonacci() func() int {
 	}
 }
 
-func main() {
+func sumEven() int {
 	f := fibonacci()
 	sum := 0
 
 	for num := f(); num < maxVal; num = f() {
-		fmt.Println("number", num)
+		// fmt.Println("number", num)
 		if num%2 == 0 {
 			sum += num
 		}
 	}
-	fmt.Println("The sum is", sum)
+	return sum
+}
+
+func main() {
+
+	fmt.Println("The sum is", sumEven())
 }

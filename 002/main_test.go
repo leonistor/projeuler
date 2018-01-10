@@ -11,5 +11,10 @@ func TestFibonacci(t *testing.T) {
 			t.Error(num, "should be ", firstTenFibonacci[i])
 		}
 	}
+}
 
+func TestSum(t *testing.T) {
+	if 4613732 != sumEven() {
+		t.Error("sum error!")
+	}
 }
