@@ -1,6 +1,6 @@
 # My Project Euler
 
-My solutions to the problems at [Project Euler](http://projecteuler.net/) in [golang](https://golang.org/)
+My solutions to the problems at [Project Euler](http://projecteuler.net/).
 
 ### Utils
 
@@ -11,5 +11,3 @@ My solutions to the problems at [Project Euler](http://projecteuler.net/) in [go
 ### Problems to be optimized
 
 See Issues on this project
-
-Test
