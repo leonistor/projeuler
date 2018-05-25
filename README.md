@@ -15,6 +15,8 @@ For VS Code + Haskero:
 
 `stack build intero`
 
+copy .gitignore
+
 #### Packages, exec
 
 TBD
