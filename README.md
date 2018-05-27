@@ -27,6 +27,35 @@ TBD
 
 [Golang Cheatsheet](https://devhints.io/go)
 
-### Problems to be optimized
+[The haskell gurus solutions](https://wiki.haskell.org/Euler_problems)
 
-See Issues on this project
+### Haskell local modules without cabal/stack
+
+... and make Haskero VS Code happy :-)
+
+Use folder structure:
+
+```
+--project
+    /.vscode
+      settings.json
+    /lib
+      Library.hs -> "module Library(mySuperFunc) where ..."
+    /src
+      Main.hs    -> "import Library(mysuperFunc) ..."
+```
+
+_settings.json_
+```json
+{
+  "haskero.intero.ghciOptions": [
+    "-Wall"
+    ,"-ilib"
+  ]
+}
+```
+Run code with
+
+`runghc --ghc-arg=-ilib src/Main.hs`
+
+The `-i` argument accepts folder locations. To test with `-i../../lib`
