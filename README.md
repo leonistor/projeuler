@@ -59,3 +59,5 @@ Run code with
 `runghc --ghc-arg=-ilib src/Main.hs`
 
 The `-i` argument accepts folder locations. To test with `-i../../lib`
+
+test
