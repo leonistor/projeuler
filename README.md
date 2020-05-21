@@ -2,6 +2,8 @@
 
 My solutions to the problems at [Project Euler](http://projecteuler.net/).
 
+To be continued again!
+
 ### Haskell Stack workflow
 
 #### New project for Problem 00X
